@@ -27,9 +27,18 @@
     <ClInclude Include="Mainwindow.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="D2DWindow.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Mainwindow.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="D2DWindow.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="WinMain.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

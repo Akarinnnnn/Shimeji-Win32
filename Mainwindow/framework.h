@@ -16,8 +16,7 @@
 
 
 //C++标准库头文件
-#include <mutex>
-#include <thread>
+#include <memory>
 #include <iostream>
 #include <string>
 #include <vector>
