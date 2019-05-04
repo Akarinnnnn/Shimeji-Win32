@@ -30,6 +30,9 @@
     <ClInclude Include="D2DWindow.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="GDIHelper.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Mainwindow.cpp">
@@ -39,6 +42,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="WinMain.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="GDIHelper.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
