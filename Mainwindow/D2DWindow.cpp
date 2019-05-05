@@ -46,7 +46,7 @@ D2DHelper::D2DWindow::D2DWindow(HINSTANCE hinst,WNDCLASSEXW wcex)
 		if (D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &f) == S_OK)
 			Factory.reset(f);
 		else
-			PostQuitMessage(20);
+			abort();
 	}
 	customwcex = wcex;
 	RegisterClassExW(&wcex);
@@ -62,7 +62,7 @@ void D2DHelper::D2DWindow::StartRenderProcess(int nCmdShow)
 {
 	
 	if (wndhandle == INVALID_HANDLE_VALUE)
-		PostQuitMessage(31);
+		abort();
 	ShowWindow(wndhandle, nCmdShow);
 	UpdateWindow(wndhandle);
 }
@@ -97,12 +97,12 @@ void D2DHelper::D2DWindow::CreateD2DRes(HWND wndhandle, D2D1_SIZE_U pixelcount)
 	if (D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &__raw_factory) == S_OK)
 		Factory.reset(__raw_factory);
 	else
-		PostQuitMessage(20);
+		abort();
 	Factory->GetDesktopDpi(&R_Target_Props.dpiX, &R_Target_Props.dpiY);
 	if (Factory->CreateHwndRenderTarget(&R_Target_Props, &R_Hwnd_Target_Props, &__raw_r_target) == S_OK)
 		RenderTarget.reset(__raw_r_target);
 	else
-		PostQuitMessage(21);
+		abort();
 
 }
 
