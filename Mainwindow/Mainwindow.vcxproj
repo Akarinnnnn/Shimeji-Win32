@@ -163,16 +163,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="D2DObjUtil.h" />
+    <ClInclude Include="D2DRes.h" />
     <ClInclude Include="D2DWindow.h" />
     <ClInclude Include="framework.h" />
-    <ClInclude Include="GDIHelper.h" />
     <ClInclude Include="Mainwindow.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="D2DWindow.cpp" />
-    <ClCompile Include="GDIHelper.cpp" />
     <ClCompile Include="Mainwindow.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>

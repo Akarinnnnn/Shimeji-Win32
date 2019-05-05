@@ -1,46 +1,70 @@
 #include "framework.h"
-//#include "D2DWindow.h"
-#include "GDIHelper.h"
+#include <string>
+#include "D2DWindow.h"
 
-LRESULT __stdcall wdnmd_wndproc(HWND handle, UINT msg, WPARAM wp, LPARAM lp)
+
+
+LRESULT __stdcall ShimejiWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	HDC DeviceContext = nullptr;
-	wchar_t wdnmd[] = L"WDNMD";
-	switch (msg)
+	switch (message)
 	{
 	case WM_PAINT:
-		PAINTSTRUCT ps;
-		DeviceContext = BeginPaint(handle, &ps);
-		DrawTextExW(DeviceContext, wdnmd, 6, &ps.rcPaint, DT_CENTER, nullptr);
-		EndPaint(handle, &ps);
-		break;
-	case WM_CLOSE:
-		PostQuitMessage(900);
+	{
+		
+	}
+	break;
+	case WM_DESTROY:
+		PostQuitMessage(0);
 		break;
 	default:
-		DefWindowProcW(handle, msg, wp, lp);
-		break;
+		return DefWindowProc(hWnd, message, wParam, lParam);
 	}
 	return 0;
 }
 
+void RegisterShimejiWndClass(HINSTANCE hinst)
+{
+	WNDCLASSEXW wcex;
+
+	wcex.cbSize = sizeof(WNDCLASSEX);
+
+	wcex.style = CS_HREDRAW | CS_VREDRAW;
+	wcex.lpfnWndProc = ShimejiWndProc;
+	wcex.cbClsExtra = 0;
+	wcex.cbWndExtra = 0;
+	wcex.hInstance = hinst;
+	wcex.hIcon = nullptr;
+	wcex.hCursor = nullptr;
+	wcex.hbrBackground = (HBRUSH)(COLOR_BACKGROUND);
+	wcex.lpszMenuName = L"Shimeji-Win32 Mainwindow";
+	wcex.lpszClassName = L"Shimeji-Win32 Mainwindow Class";
+	wcex.hIconSm = nullptr;
+	if (RegisterClassExW(&wcex) == 0)
+	{
+		throw std::exception("Register Window Class Failed");
+	}
+}
+
 int __stdcall wWinMain(HINSTANCE instance, HINSTANCE previnst, wchar_t* cmdline, int cmdshow)
 {
+	RegisterShimejiWndClass(instance);
+	auto mainwindow = CreateWindowExW(WS_EX_LAYERED, L"Shimeji-Win32 Mainwindow Class", L"Test",
+		WS_OVERLAPPED | WS_VISIBLE | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_CLIPCHILDREN | WS_CLIPSIBLINGS, CW_USEDEFAULT,
+		0, 150, 200, nullptr, nullptr, instance, nullptr);
+	
+	if (mainwindow == NULL)
+		return 20;
+
+	D2DHelper::D2DWindowV2 Window(mainwindow);
+	
+
+	ShowWindow(mainwindow, cmdshow);
+
 	MSG msg;
-	wchar_t wndclassname[] = L"WDNMD";
-	wchar_t wndtitle[] = L"Œ“≤›¡À∂º";
-	GDI::WindowClass WDNMD_wndclass(instance, wndclassname);
-	WDNMD_wndclass.setproc(&::wdnmd_wndproc);
-	if (!WDNMD_wndclass.Register())
-		return 0x0000F000;
-	GDI::Window Mainwindow(instance, wndclassname, wndtitle);
-	Mainwindow.setsize(400, 400);
-	Mainwindow.setpos(120, 100);
-	Mainwindow.show(cmdshow);
-	while (GetMessageW(&msg, nullptr, 0, 0))
+	while (GetMessageW(&msg,nullptr,0,0))
 	{
 		TranslateMessage(&msg);
 		DispatchMessageW(&msg);
 	}
-	return 0;
+	return (int) msg.wParam;
 }

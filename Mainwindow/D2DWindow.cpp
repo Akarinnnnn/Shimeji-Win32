@@ -111,3 +111,25 @@ void D2DHelper::Deleters::FactoryDeleter::operator() (ID2D1Factory* target)
 {
 	target->Release();
 }
+
+D2DHelper::D2DWindowV2::D2DWindowV2(HWND hwnd):D2DWindowV2{}
+{
+	ID2D1HwndRenderTarget* rawtarget = nullptr;
+	if (FAILED(Factory->CreateHwndRenderTarget(D2D1::RenderTargetProperties(D2D1_RENDER_TARGET_TYPE_HARDWARE),
+		D2D1::HwndRenderTargetProperties(hwnd), &rawtarget)))
+		throw exception("Create D2D Render Target Failed", 31);
+	RenderTarget.reset(rawtarget);
+}
+
+ID2D1HwndRenderTarget* D2DHelper::D2DWindowV2::operator->()
+{
+	return RenderTarget.get();
+}
+
+D2DHelper::D2DWindowV2::D2DWindowV2()
+{
+	ID2D1Factory* rawfactory = nullptr;
+	if (FAILED(D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &rawfactory)))
+		throw exception("Create D2D Factory Failed",30);
+	Factory.reset(rawfactory);
+}

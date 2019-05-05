@@ -1,5 +1,6 @@
 #pragma once
 #include "framework.h"
+#include "D2DObjUtil.h"
 namespace D2DHelper
 {
 	namespace Deleters
@@ -10,16 +11,6 @@ namespace D2DHelper
 			void operator() (ID2D1Factory* target);
 		};
 	}
-
-	template <typename D2DObject>
-	class D2DObjectDeleter
-	{
-	public:
-		inline void operator() (D2DObject* target)
-		{
-			target->Release();
-		}
-	};
 
 	LRESULT __stdcall DefaultWindowProcess(HWND, UINT, WPARAM, LPARAM);
 	class D2DWindow
@@ -52,6 +43,20 @@ namespace D2DHelper
 		std::unique_ptr < ID2D1Factory, D2DObjectDeleter<ID2D1Factory> > Factory;
 	private:
 		void CreateD2DRes(HWND wndhandle, D2D1_SIZE_U pixelcount);
+	};
+
+	class D2DWindowV2
+	{
+	public:
+		D2DWindowV2(HWND hwnd);
+		ID2D1HwndRenderTarget* operator->();
+	private:
+		D2DWindowV2();
+
+		std::unique_ptr<ID2D1Factory, D2DObjectDeleter<ID2D1Factory>> Factory;
+		std::unique_ptr<ID2D1HwndRenderTarget, D2DObjectDeleter<ID2D1HwndRenderTarget>> RenderTarget;
+
+	protected:
 	};
 }
 
