@@ -1,16 +1,19 @@
 #include "framework.h"
 #include <string>
 #include "D2DWindow.h"
-
-
+std::shared_ptr<ID2D1Factory> D2DFactory;
 
 LRESULT __stdcall ShimejiWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	
 	switch (message)
 	{
+	case 0x00008888:
+
+		break;
 	case WM_PAINT:
 	{
-		
+
 	}
 	break;
 	case WM_DESTROY:
@@ -45,19 +48,28 @@ void RegisterShimejiWndClass(HINSTANCE hinst)
 	}
 }
 
+using namespace std;
+
+std::shared_ptr<ID2D1Factory> CreateFactory()
+{
+	ID2D1Factory* rawfactory = nullptr;
+	if (FAILED(D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &rawfactory)))
+		throw exception("Create D2D Factory failed.", 30);
+	return shared_ptr<ID2D1Factory>(rawfactory, D2DHelper::D2DObjectDeleter<ID2D1Factory>());
+}
+
 int __stdcall wWinMain(HINSTANCE instance, HINSTANCE previnst, wchar_t* cmdline, int cmdshow)
 {
 	RegisterShimejiWndClass(instance);
-	auto mainwindow = CreateWindowExW(WS_EX_LAYERED, L"Shimeji-Win32 Mainwindow Class", L"Test",
+	auto mainwindow = CreateWindowExW(WS_EX_LAYERED, L"Shimeji-Win32 Mainwindow Class", L"wdnm",
 		WS_OVERLAPPED | WS_VISIBLE | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_CLIPCHILDREN | WS_CLIPSIBLINGS, CW_USEDEFAULT,
 		0, 150, 200, nullptr, nullptr, instance, nullptr);
 	
 	if (mainwindow == NULL)
 		return 20;
-
-	D2DHelper::D2DWindowV2 Window(mainwindow);
+	D2DFactory = CreateFactory();
+	D2DHelper::D2DWindowV2 Window(mainwindow,D2DFactory);
 	
-
 	ShowWindow(mainwindow, cmdshow);
 
 	MSG msg;

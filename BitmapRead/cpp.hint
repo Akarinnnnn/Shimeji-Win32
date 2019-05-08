@@ -1,0 +1,2 @@
+#define BITMAPREAD_API __declspec(dllexport)
+#define BITMAPREAD_API __declspec(dllimport)

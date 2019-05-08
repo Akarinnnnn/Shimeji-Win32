@@ -15,56 +15,28 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <None Include="cpp.hint" />
+  </ItemGroup>
+  <ItemGroup>
     <ClInclude Include="framework.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="targetver.h">
+    <ClInclude Include="BitmapRead.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Resource.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Mainwindow.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="D2DWindow.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="D2DRes.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="D2DObjUtil.h">
+    <ClInclude Include="pch.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Mainwindow.cpp">
+    <ClCompile Include="BitmapRead.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="D2DWindow.cpp">
+    <ClCompile Include="dllmain.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="WinMain.cpp">
+    <ClCompile Include="pch.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Mainwindow.rc">
-      <Filter>资源文件</Filter>
-    </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="small.ico">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="Mainwindow.ico">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="杂项文件\滑稽.jpg">
-      <Filter>资源文件</Filter>
-    </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\README.md" />
   </ItemGroup>
 </Project>
