@@ -1,5 +1,7 @@
 #include "framework.h"
+#include <future>
 #include <string>
+#include <thread>
 #include "../D2DBitmapRead/BitmapRead.h"
 #include "D2DWindow.h"
 std::shared_ptr<ID2D1Factory> D2DFactory;
@@ -8,6 +10,7 @@ LRESULT __stdcall ShimejiWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 {
 	static D2DHelper::D2DWindowV2* D2DWindow = nullptr;
 	static D2DHelper::bmpreader reader;
+	std::unique_ptr<ID2D1Bitmap, D2DHelper::COMDeleter> bmp;
 	switch (message)
 	{
 	case 0x00001111://Init D2D
@@ -18,11 +21,11 @@ LRESULT __stdcall ShimejiWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 		D2DWindow->get()->BeginDraw();
 		D2DWindow->get()->Clear({ 225,225,225,0 });
 		D2DWindow->get()->EndDraw();
-		SendMessageW(hWnd, WM_PAINT, wParam, lParam);
 			break;
 	case WM_PAINT:
+		bmp.reset(reader.read(L"misc\\»¬»ü.jpg"));
 		D2DWindow->get()->BeginDraw();
-
+		D2DWindow->get()->DrawBitmap(bmp.get());
 		D2DWindow->get()->EndDraw();
 		break;
 	case WM_DESTROY:
@@ -59,6 +62,17 @@ void RegisterShimejiWndClass(HINSTANCE hinst)
 
 using namespace std;
 
+WPARAM msgloop_fn()
+{
+	MSG msg;
+	while (GetMessageW(&msg, nullptr, 0, 0))
+	{
+		TranslateMessage(&msg);
+		DispatchMessageW(&msg);
+	}
+	return msg.lParam;
+}
+
 std::shared_ptr<ID2D1Factory> CreateFactory()
 {
 	ID2D1Factory* rawfactory = nullptr;
@@ -70,25 +84,21 @@ std::shared_ptr<ID2D1Factory> CreateFactory()
 int __stdcall wWinMain(HINSTANCE instance, HINSTANCE previnst, wchar_t* cmdline, int cmdshow)
 {
 	RegisterShimejiWndClass(instance);
-	auto mainwindow = CreateWindowExW(0, L"Shimeji-Win32 Mainwindow Class", L"wdnm",
-		/*WS_OVERLAPPED | WS_VISIBLE | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_CLIPCHILDREN | WS_CLIPSIBLINGS*/
-		WS_OVERLAPPEDWINDOW, CW_USEDEFAULT,
-		0, 150, 200, nullptr, nullptr, instance, nullptr);
-	
+	auto mainwindow = CreateWindowExW(WS_EX_LAYERED, L"Shimeji-Win32 Mainwindow Class", L"wdnm",
+		WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS
+		, CW_USEDEFAULT,
+		0, 150, 200, nullptr, nullptr, instance, nullptr);//windows8+
+	SetLayeredWindowAttributes(mainwindow, 0, 100, 2);
+
+
 	if (mainwindow == NULL)
 		return 20;
 	D2DFactory = CreateFactory();
 	D2DHelper::D2DWindowV2 Window(mainwindow,D2DFactory);
 	ShowWindow(mainwindow, cmdshow);
 	SendMessageW(mainwindow, 0x00001111, NULL, reinterpret_cast<LPARAM>(&Window));
-	
-	
-	
-	MSG msg;
-	while (GetMessageW(&msg,nullptr,0,0))
-	{
-		TranslateMessage(&msg);
-		DispatchMessageW(&msg);
-	}
-	return (int) msg.wParam;
+	SendMessageW(mainwindow, WM_PAINT, NULL, NULL);
+
+	return msgloop_fn();
 }
+
