@@ -9,12 +9,11 @@ namespace D2DHelper
 	public:
 		D2DWindowV2(HWND hwnd, std::shared_ptr<ID2D1Factory> Factory);
 		ID2D1HwndRenderTarget* operator->();
+		ID2D1HwndRenderTarget* get();
 	private:
 		D2DWindowV2(std::shared_ptr<ID2D1Factory> Factory);
-
 		std::shared_ptr<ID2D1Factory> Factory;
 		std::unique_ptr<ID2D1HwndRenderTarget, D2DObjectDeleter<ID2D1HwndRenderTarget>> RenderTarget;
-
 	protected:
 	};
 }

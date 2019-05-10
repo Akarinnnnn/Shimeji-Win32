@@ -1,21 +1,26 @@
 #include "framework.h"
 #include <string>
+#include "../D2DBitmapRead/BitmapRead.h"
 #include "D2DWindow.h"
 std::shared_ptr<ID2D1Factory> D2DFactory;
 
 LRESULT __stdcall ShimejiWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	
+	static D2DHelper::D2DWindowV2* D2DWindow = nullptr;
+	static D2DHelper::bmpreader reader;
 	switch (message)
 	{
-	case 0x00008888:
+	case 0x00001111://Init D2D
+		D2DWindow = reinterpret_cast<D2DHelper::D2DWindowV2*>(lParam);
+		reader = D2DHelper::bmpreader::bmpreader(D2DWindow->get());
+		break;
+	case 0x00001112://Reset
+
+			break;
+	case WM_PAINT:
+		D2DWindow->get()->BeginDraw();
 
 		break;
-	case WM_PAINT:
-	{
-
-	}
-	break;
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
@@ -61,17 +66,17 @@ std::shared_ptr<ID2D1Factory> CreateFactory()
 int __stdcall wWinMain(HINSTANCE instance, HINSTANCE previnst, wchar_t* cmdline, int cmdshow)
 {
 	RegisterShimejiWndClass(instance);
-	auto mainwindow = CreateWindowExW(WS_EX_LAYERED, L"Shimeji-Win32 Mainwindow Class", L"wdnm",
-		WS_OVERLAPPED | WS_VISIBLE | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_CLIPCHILDREN | WS_CLIPSIBLINGS, CW_USEDEFAULT,
+	auto mainwindow = CreateWindowExW(0, L"Shimeji-Win32 Mainwindow Class", L"wdnm",
+		/*WS_OVERLAPPED | WS_VISIBLE | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_CLIPCHILDREN | WS_CLIPSIBLINGS*/
+		WS_OVERLAPPEDWINDOW, CW_USEDEFAULT,
 		0, 150, 200, nullptr, nullptr, instance, nullptr);
 	
 	if (mainwindow == NULL)
 		return 20;
 	D2DFactory = CreateFactory();
 	D2DHelper::D2DWindowV2 Window(mainwindow,D2DFactory);
-	
 	ShowWindow(mainwindow, cmdshow);
-
+	SendMessageW(mainwindow, 0x00001111, NULL, reinterpret_cast<LPARAM>(&Window));
 	MSG msg;
 	while (GetMessageW(&msg,nullptr,0,0))
 	{

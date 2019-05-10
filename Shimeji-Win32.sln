@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Mainwindow", "Mainwindow\Mainwindow.vcxproj", "{38EEF8A0-4F16-46C9-B5FE-41212BFCA5C0}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BitmapRead", "BitmapRead\BitmapRead.vcxproj", "{4F0A3FD5-DA78-4208-8516-3E053D1248F6}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "D2DBitmapRead", "D2DBitmapRead\D2DBitmapRead.vcxproj", "{A1760634-63B4-4778-A464-E5769B1ACFC2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,16 +27,16 @@ Global
 		{38EEF8A0-4F16-46C9-B5FE-41212BFCA5C0}.Release|x64.Build.0 = Release|x64
 		{38EEF8A0-4F16-46C9-B5FE-41212BFCA5C0}.Release|x86.ActiveCfg = Release|Win32
 		{38EEF8A0-4F16-46C9-B5FE-41212BFCA5C0}.Release|x86.Build.0 = Release|Win32
-		{4F0A3FD5-DA78-4208-8516-3E053D1248F6}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{4F0A3FD5-DA78-4208-8516-3E053D1248F6}.Debug|x64.ActiveCfg = Debug|x64
-		{4F0A3FD5-DA78-4208-8516-3E053D1248F6}.Debug|x64.Build.0 = Debug|x64
-		{4F0A3FD5-DA78-4208-8516-3E053D1248F6}.Debug|x86.ActiveCfg = Debug|Win32
-		{4F0A3FD5-DA78-4208-8516-3E053D1248F6}.Debug|x86.Build.0 = Debug|Win32
-		{4F0A3FD5-DA78-4208-8516-3E053D1248F6}.Release|Any CPU.ActiveCfg = Release|Win32
-		{4F0A3FD5-DA78-4208-8516-3E053D1248F6}.Release|x64.ActiveCfg = Release|x64
-		{4F0A3FD5-DA78-4208-8516-3E053D1248F6}.Release|x64.Build.0 = Release|x64
-		{4F0A3FD5-DA78-4208-8516-3E053D1248F6}.Release|x86.ActiveCfg = Release|Win32
-		{4F0A3FD5-DA78-4208-8516-3E053D1248F6}.Release|x86.Build.0 = Release|Win32
+		{A1760634-63B4-4778-A464-E5769B1ACFC2}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{A1760634-63B4-4778-A464-E5769B1ACFC2}.Debug|x64.ActiveCfg = Debug|x64
+		{A1760634-63B4-4778-A464-E5769B1ACFC2}.Debug|x64.Build.0 = Debug|x64
+		{A1760634-63B4-4778-A464-E5769B1ACFC2}.Debug|x86.ActiveCfg = Debug|Win32
+		{A1760634-63B4-4778-A464-E5769B1ACFC2}.Debug|x86.Build.0 = Debug|Win32
+		{A1760634-63B4-4778-A464-E5769B1ACFC2}.Release|Any CPU.ActiveCfg = Release|Win32
+		{A1760634-63B4-4778-A464-E5769B1ACFC2}.Release|x64.ActiveCfg = Release|x64
+		{A1760634-63B4-4778-A464-E5769B1ACFC2}.Release|x64.Build.0 = Release|x64
+		{A1760634-63B4-4778-A464-E5769B1ACFC2}.Release|x86.ActiveCfg = Release|Win32
+		{A1760634-63B4-4778-A464-E5769B1ACFC2}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
