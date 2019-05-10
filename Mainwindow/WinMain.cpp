@@ -15,11 +15,15 @@ LRESULT __stdcall ShimejiWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 		reader = D2DHelper::bmpreader::bmpreader(D2DWindow->get());
 		break;
 	case 0x00001112://Reset
-
+		D2DWindow->get()->BeginDraw();
+		D2DWindow->get()->Clear({ 225,225,225,0 });
+		D2DWindow->get()->EndDraw();
+		SendMessageW(hWnd, WM_PAINT, wParam, lParam);
 			break;
 	case WM_PAINT:
 		D2DWindow->get()->BeginDraw();
 
+		D2DWindow->get()->EndDraw();
 		break;
 	case WM_DESTROY:
 		PostQuitMessage(0);
@@ -77,6 +81,9 @@ int __stdcall wWinMain(HINSTANCE instance, HINSTANCE previnst, wchar_t* cmdline,
 	D2DHelper::D2DWindowV2 Window(mainwindow,D2DFactory);
 	ShowWindow(mainwindow, cmdshow);
 	SendMessageW(mainwindow, 0x00001111, NULL, reinterpret_cast<LPARAM>(&Window));
+	
+	
+	
 	MSG msg;
 	while (GetMessageW(&msg,nullptr,0,0))
 	{
