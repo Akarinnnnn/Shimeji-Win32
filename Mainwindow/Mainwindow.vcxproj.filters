@@ -36,6 +36,9 @@
     <ClInclude Include="D2DObjUtil.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="com_uniqueptr.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Mainwindow.cpp">
