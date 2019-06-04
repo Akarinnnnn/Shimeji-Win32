@@ -22,9 +22,9 @@ D2DHelper::D2DWindowV2::D2DWindowV2(HWND hwnd, std::shared_ptr<ID2D1Factory> Fac
 		throw exception("Create D2D Render Target Failed", 31);//不接异常就会闪退
 	RenderTarget.reset(rawtarget);
 	{
-		float dpix, dpiy = 0;
-		this->Factory->GetDesktopDpi(&dpix, &dpiy);
-		RenderTarget->SetDpi(dpix, dpiy);
+		unsigned int dpi = 0;
+		dpi = GetDpiForWindow(this->RenderTarget->GetHwnd());
+		RenderTarget->SetDpi((float)dpi, (float)dpi);
 	}
 
 }

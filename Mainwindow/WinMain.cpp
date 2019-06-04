@@ -15,8 +15,15 @@ LRESULT __stdcall ShimejiWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 	static D2DHelper::bmpreader reader;
 	unique_com<ID2D1Bitmap> bmp;
 	RECT cl_area;
+	LONG wnd_style = 0;
+
 	switch (message)
 	{
+	case WM_CREATE:
+		wnd_style = GetWindowLongW(hWnd, GWL_STYLE);
+		wnd_style &= ~(WS_CAPTION | WS_SYSMENU | WS_SIZEBOX);
+		SetWindowLongW(hWnd, GWL_STYLE, wnd_style);
+		break;
 	case 0x00001111://Init D2D
 		D2DWindow = reinterpret_cast<D2DHelper::D2DWindowV2*>(lParam);
 		reader = D2DHelper::bmpreader::bmpreader(D2DWindow->get());
@@ -25,13 +32,15 @@ LRESULT __stdcall ShimejiWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 		D2DWindow->get()->BeginDraw();
 		D2DWindow->get()->Clear({ 225,225,225,0 });
 		D2DWindow->get()->EndDraw();
+
 			break;
 	case WM_PAINT:
-		bmp.reset(reader.read(L"misc\\»¬»ü.jpg"));
+		SetLayeredWindowAttributes(hWnd, RGB(0, 255, 0), 0, LWA_COLORKEY);
+		/*bmp.reset(reader.read(L"misc\\»¬»ü.jpg"));
 		D2DWindow->get()->BeginDraw();
 		D2DWindow->get()->Clear({ 225,225,225,0 });
 		D2DWindow->get()->DrawBitmap(bmp.get());
-		D2DWindow->get()->EndDraw();
+		D2DWindow->get()->EndDraw();*/
 		break;
 	case WM_SIZE:
 		GetClientRect(hWnd, &cl_area);
@@ -49,7 +58,7 @@ LRESULT __stdcall ShimejiWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 void RegisterShimejiWndClass(HINSTANCE hinst)
 {
 	WNDCLASSEXW wcex;
-
+	
 	wcex.cbSize = sizeof(WNDCLASSEX);
 
 	wcex.style = CS_HREDRAW | CS_VREDRAW;
@@ -59,7 +68,7 @@ void RegisterShimejiWndClass(HINSTANCE hinst)
 	wcex.hInstance = hinst;
 	wcex.hIcon = nullptr;
 	wcex.hCursor = nullptr;
-	wcex.hbrBackground = (HBRUSH)(COLOR_BACKGROUND);
+	wcex.hbrBackground = CreateSolidBrush(RGB(0,255,0));
 	wcex.lpszMenuName = L"Shimeji-Win32 Mainwindow";
 	wcex.lpszClassName = L"Shimeji-Win32 Mainwindow Class";
 	wcex.hIconSm = nullptr;
@@ -100,7 +109,7 @@ int __stdcall wWinMain(HINSTANCE instance, HINSTANCE previnst, wchar_t* cmdline,
 	SetLayeredWindowAttributes(mainwindow, 0, 255, 2);
 	MARGINS margins = { -1,0,0,0 };
 	//UpdateLayeredWindow(mainwindow, nullptr, nullptr, nullptr, nullptr, nullptr, RGB(255, 255, 255), nullptr, 0);
-	DwmExtendFrameIntoClientArea(mainwindow, &margins);
+	//DwmExtendFrameIntoClientArea(mainwindow, &margins);
 	if (mainwindow == NULL)
 		return 20;
 	D2DFactory = CreateFactory();
