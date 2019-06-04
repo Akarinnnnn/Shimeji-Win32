@@ -16,13 +16,15 @@ LRESULT __stdcall ShimejiWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 	unique_com<ID2D1Bitmap> bmp;
 	RECT cl_area;
 	LONG wnd_style = 0;
-
+	
 	switch (message)
 	{
 	case WM_CREATE:
-		wnd_style = GetWindowLongW(hWnd, GWL_STYLE);
-		wnd_style &= ~(WS_CAPTION | WS_SYSMENU | WS_SIZEBOX);
-		SetWindowLongW(hWnd, GWL_STYLE, wnd_style);
+		//wnd_style = GetWindowLongW(hWnd, GWL_STYLE);
+		//wnd_style &= ~(WS_CAPTION | WS_SYSMENU | WS_SIZEBOX);
+		SetLayeredWindowAttributes(hWnd, RGB(0, 0, 0), 0, LWA_COLORKEY);
+		SetWindowLongW(hWnd, GWL_STYLE, 0x16010000);
+		//UpdateWindow(hWnd);
 		break;
 	case 0x00001111://Init D2D
 		D2DWindow = reinterpret_cast<D2DHelper::D2DWindowV2*>(lParam);
@@ -35,12 +37,12 @@ LRESULT __stdcall ShimejiWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 
 			break;
 	case WM_PAINT:
-		SetLayeredWindowAttributes(hWnd, RGB(0, 255, 0), 0, LWA_COLORKEY);
-		/*bmp.reset(reader.read(L"misc\\»¬»ü.jpg"));
+		bmp.reset(reader.read(L"misc\\»¬»ü.jpg"));		
+		SetLayeredWindowAttributes(hWnd, RGB(0, 0, 0), 0, LWA_COLORKEY);
 		D2DWindow->get()->BeginDraw();
 		D2DWindow->get()->Clear({ 225,225,225,0 });
 		D2DWindow->get()->DrawBitmap(bmp.get());
-		D2DWindow->get()->EndDraw();*/
+		D2DWindow->get()->EndDraw();
 		break;
 	case WM_SIZE:
 		GetClientRect(hWnd, &cl_area);
@@ -68,7 +70,7 @@ void RegisterShimejiWndClass(HINSTANCE hinst)
 	wcex.hInstance = hinst;
 	wcex.hIcon = nullptr;
 	wcex.hCursor = nullptr;
-	wcex.hbrBackground = CreateSolidBrush(RGB(0,255,0));
+	wcex.hbrBackground = CreateSolidBrush(RGB(0, 0, 0));
 	wcex.lpszMenuName = L"Shimeji-Win32 Mainwindow";
 	wcex.lpszClassName = L"Shimeji-Win32 Mainwindow Class";
 	wcex.hIconSm = nullptr;
@@ -104,9 +106,10 @@ int __stdcall wWinMain(HINSTANCE instance, HINSTANCE previnst, wchar_t* cmdline,
 	RegisterShimejiWndClass(instance);
 	auto mainwindow = CreateWindowExW(WS_EX_LAYERED, L"Shimeji-Win32 Mainwindow Class", L"wdnm",
 		WS_OVERLAPPED | WS_VISIBLE | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_CLIPCHILDREN | WS_CLIPSIBLINGS,
+		//0x16010000,
 		CW_USEDEFAULT,
 		CW_USEDEFAULT, 150, 200, nullptr, nullptr, instance, nullptr);
-	SetLayeredWindowAttributes(mainwindow, 0, 255, 2);
+	//SetLayeredWindowAttributes(mainwindow, 0, 255, 2);
 	MARGINS margins = { -1,0,0,0 };
 	//UpdateLayeredWindow(mainwindow, nullptr, nullptr, nullptr, nullptr, nullptr, RGB(255, 255, 255), nullptr, 0);
 	//DwmExtendFrameIntoClientArea(mainwindow, &margins);
