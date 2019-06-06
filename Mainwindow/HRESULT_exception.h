@@ -17,10 +17,13 @@ namespace COM_helper
 		virtual char* what() noexcept;
 		HRESULT hresult() noexcept;
 		~HRESULT_exception() noexcept;
-	private:
-		char* out_msg;
+	protected:
+		void build_hresult_msg() noexcept;
+		char hresult_msg[100 + 20] = { 0 };
 		const char* msg;
 		HRESULT h;
+	private:
+		char* out_msg;
 	};
 }
 

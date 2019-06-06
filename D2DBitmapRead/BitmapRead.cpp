@@ -92,5 +92,6 @@ D2DHelper::bmpreader_exception::bmpreader_exception(char const* msg) noexcept : 
 
 char* D2DHelper::bmpreader_exception::what() noexcept
 {
-	
+	bmpmsg = new char[strlen(msg) + 100 + 20 + 10];
+
 }
