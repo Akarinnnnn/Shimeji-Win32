@@ -39,19 +39,21 @@ ID2D1Bitmap* D2DHelper::bmpreader::read(const wchar_t * filename)
 	unique_ptr<IWICBitmapDecoder,COMDeleter> decoder = nullptr;
 	unique_ptr<IWICBitmapFrameDecode,COMDeleter> decoded = nullptr;
 	unique_ptr<IWICFormatConverter,COMDeleter> converter = nullptr;
+	HRESULT last_result = 0;
 	IWICBitmapDecoder* rawdecoder;
 	IWICBitmapFrameDecode* rawdecoded = nullptr;
 	ID2D1Bitmap* bitmap = nullptr;
-	if (WICFactory->CreateDecoderFromFilename(filename, nullptr, GENERIC_READ, WICDecodeMetadataCacheOnLoad, &rawdecoder) == S_OK)
+	last_result = WICFactory->CreateDecoderFromFilename(filename, nullptr, GENERIC_READ, WICDecodeMetadataCacheOnLoad, &rawdecoder);
+	if (last_result == S_OK)
 	{
 		decoder.reset(rawdecoder);
 		if (decoder->GetFrame(0, &rawdecoded) != S_OK)
-			throw bmpreader_exception("Failed to read bitmap", 41);
+			throw bmpreader_exception("Failed to read bitmap", last_result);
 		else
 			decoded.reset(rawdecoded);
 	}
 	else
-		throw bmpreader_exception("Failed to create WICDecoder", 40);
+		throw bmpreader_exception("Failed to create WICDecoder", last_result);
 	//转换像素格式
 	WICPixelFormatGUID format_guid;
 	if (decoded->GetPixelFormat(&format_guid) == S_OK)
@@ -59,21 +61,23 @@ ID2D1Bitmap* D2DHelper::bmpreader::read(const wchar_t * filename)
 		if (format_guid != GUID_WICPixelFormat32bppPRGBA)
 		{
 			IWICFormatConverter* rawconverter = nullptr;
-			if (WICFactory->CreateFormatConverter(&rawconverter) == S_OK)
+			last_result = WICFactory->CreateFormatConverter(&rawconverter);
+			if (SUCCEEDED(last_result))
 			{
 				rawconverter->Initialize(decoded.get(), GUID_WICPixelFormat32bppPRGBA, WICBitmapDitherTypeNone
 					, nullptr, 0.0, WICBitmapPaletteTypeMedianCut);
 				converter.reset(rawconverter);
 			}
 			else
-				throw bmpreader_exception("Failed to Create WICFormatConverter", 43);
+				throw bmpreader_exception("Failed to Create WICFormatConverter", last_result);
 		}
 	}
 	/////////////
-	if (RenderTarget->CreateBitmapFromWicBitmap(converter.get(), &bitmap) == S_OK)
+	last_result = RenderTarget->CreateBitmapFromWicBitmap(converter.get(), &bitmap);
+	if (last_result == S_OK)
 		return bitmap;
 	else
-		throw bmpreader_exception("Failed to Create D2D Bitmap Object", 42);
+		throw bmpreader_exception("Failed to Create D2D Bitmap Object", last_result);
 }
 
 D2DHelper::bmpreader_exception::bmpreader_exception(char const* msg, HRESULT id) noexcept: HRESULT_exception{ msg,id } 

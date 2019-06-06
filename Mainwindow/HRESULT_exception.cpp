@@ -1,4 +1,4 @@
-#include "COM_exception.h"
+#include "HRESULT_exception.h"
 #include <stdio.h>
 using namespace COM_helper;
 HRESULT_exception::HRESULT_exception(const char* msg, HRESULT h) noexcept:HRESULT_exception{msg} 

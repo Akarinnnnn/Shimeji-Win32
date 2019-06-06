@@ -175,7 +175,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="COM_exception.h" />
+    <ClInclude Include="HRESULT_exception.h" />
     <ClInclude Include="com_uniqueptr.h" />
     <ClInclude Include="D2DObjUtil.h" />
     <ClInclude Include="D2DRes.h" />
@@ -186,7 +186,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="COM_exception.cpp" />
+    <ClCompile Include="HRESULT_exception.cpp" />
     <ClCompile Include="D2DWindow.cpp" />
     <ClCompile Include="Mainwindow.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
