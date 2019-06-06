@@ -1,7 +1,7 @@
 #pragma once
 #include <exception>
 #include <wtypes.h>
-namespace COM_Helper
+namespace COM_helper
 {
 	class HRESULT_exception :public std::exception
 	{
