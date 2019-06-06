@@ -19,7 +19,7 @@ D2DHelper::D2DWindowV2::D2DWindowV2(HWND hwnd, std::shared_ptr<ID2D1Factory> Fac
 	auto hresult = Factory->CreateHwndRenderTarget(rtprops,
 		D2D1::HwndRenderTargetProperties(hwnd, D2D1::SizeU(cl_area.right - cl_area.left,cl_area.bottom-cl_area.top)), &rawtarget);
 	if (FAILED(hresult))
-		throw exception("Create D2D Render Target Failed", 31);//不接异常就会闪退
+		throw HRESULT_exception("Create D2D Render Target Failed", hresult);//不接异常就会闪退
 	RenderTarget.reset(rawtarget);
 	{
 		unsigned int dpi = 0;

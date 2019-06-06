@@ -39,6 +39,9 @@
     <ClInclude Include="com_uniqueptr.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="COM_exception.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Mainwindow.cpp">
@@ -48,6 +51,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="WinMain.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="COM_exception.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

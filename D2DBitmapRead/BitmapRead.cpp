@@ -76,24 +76,17 @@ ID2D1Bitmap* D2DHelper::bmpreader::read(const wchar_t * filename)
 		throw bmpreader_exception("Failed to Create D2D Bitmap Object", 42);
 }
 
-D2DHelper::bmpreader_exception::bmpreader_exception(char const* msg, int id) noexcept
+D2DHelper::bmpreader_exception::bmpreader_exception(char const* msg, HRESULT id) noexcept: HRESULT_exception{ msg,id } 
 {
-	this->msg = msg;
-	this->_id = id;
+	bmpmsg = nullptr;
 }
 
-D2DHelper::bmpreader_exception::bmpreader_exception(char const* msg) noexcept
+D2DHelper::bmpreader_exception::bmpreader_exception(char const* msg) noexcept : HRESULT_exception{ msg }
 {
-	this->msg = msg;
-	this->_id = 0;
+	bmpmsg = nullptr;
 }
 
-const char* D2DHelper::bmpreader_exception::what() noexcept
+char* D2DHelper::bmpreader_exception::what() noexcept
 {
-	return this->msg;
-}
-
-int D2DHelper::bmpreader_exception::id() noexcept
-{
-	return this->_id;
+	
 }
