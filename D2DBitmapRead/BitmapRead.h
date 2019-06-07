@@ -13,7 +13,7 @@
 #include <d2d1.h>
 #include <memory>
 #include <exception>
-#include "..\Mainwindow\HRESULT_exception.h"
+#include "HRESULT_exception.h"
 
 //导出的命名空间
 namespace D2DHelper 

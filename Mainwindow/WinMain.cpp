@@ -6,6 +6,7 @@
 #include <dwmapi.h>
 #include "D2DWindow.h"
 #include "com_uniqueptr.h"
+#include "HRESULT_exception.cpp"
 std::shared_ptr<ID2D1Factory> D2DFactory;
 
 LRESULT __stdcall ShimejiWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -28,25 +29,23 @@ LRESULT __stdcall ShimejiWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 		break;
 	case 0x00001111://Init D2D
 		D2DWindow = reinterpret_cast<D2DHelper::D2DWindowV2*>(lParam);
-		reader = D2DHelper::bmpreader::bmpreader(D2DWindow->get());
-		break;
+		reader = D2DHelper::bmpreader::bmpreader(D2DWindow->render_tgt());
 	case 0x00001112://Reset
-		D2DWindow->get()->BeginDraw();
-		D2DWindow->get()->Clear({ 225,225,225,0 });
-		D2DWindow->get()->EndDraw();
-
+		D2DWindow->render_tgt()->BeginDraw();
+		D2DWindow->render_tgt()->Clear({ 225,225,225,255 });
+		D2DWindow->render_tgt()->EndDraw();
 			break;
 	case WM_PAINT:
 		bmp.reset(reader.read(L"misc\\»¬»ü.jpg"));		
 		SetLayeredWindowAttributes(hWnd, RGB(0, 0, 0), 0, LWA_COLORKEY);
-		D2DWindow->get()->BeginDraw();
-		D2DWindow->get()->Clear({ 225,225,225,0 });
-		D2DWindow->get()->DrawBitmap(bmp.get());
-		D2DWindow->get()->EndDraw();
+		D2DWindow->render_tgt()->BeginDraw();
+		D2DWindow->render_tgt()->Clear({ 225,225,225,0 });
+		D2DWindow->render_tgt()->DrawBitmap(bmp.get());
+		D2DWindow->render_tgt()->EndDraw();
 		break;
 	case WM_SIZE:
 		GetClientRect(hWnd, &cl_area);
-		if (D2DWindow != nullptr) D2DWindow->get()->Resize(D2D1::SizeU(cl_area.right - cl_area.left, cl_area.bottom - cl_area.top));
+		if (D2DWindow != nullptr) D2DWindow->render_tgt()->Resize(D2D1::SizeU(cl_area.right - cl_area.left, cl_area.bottom - cl_area.top));
 		break;
 	case WM_DESTROY:
 		PostQuitMessage(0);
@@ -96,8 +95,9 @@ WPARAM msgloop_fn()
 std::shared_ptr<ID2D1Factory> CreateFactory()
 {
 	ID2D1Factory* rawfactory = nullptr;
-	if (FAILED(D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &rawfactory)))
-		throw exception("Create D2D Factory failed.", 30);
+	HRESULT last_result = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &rawfactory);
+	if (FAILED(last_result))
+		throw HRESULT_exception("Create D2D Factory failed.", last_result);
 	return shared_ptr<ID2D1Factory>(rawfactory, D2DHelper::D2DObjectDeleter<ID2D1Factory>());
 }
 
@@ -106,13 +106,9 @@ int __stdcall wWinMain(HINSTANCE instance, HINSTANCE previnst, wchar_t* cmdline,
 	RegisterShimejiWndClass(instance);
 	auto mainwindow = CreateWindowExW(WS_EX_LAYERED, L"Shimeji-Win32 Mainwindow Class", L"wdnm",
 		WS_OVERLAPPED | WS_VISIBLE | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_CLIPCHILDREN | WS_CLIPSIBLINGS,
-		//0x16010000,
 		CW_USEDEFAULT,
 		CW_USEDEFAULT, 150, 200, nullptr, nullptr, instance, nullptr);
-	//SetLayeredWindowAttributes(mainwindow, 0, 255, 2);
 	MARGINS margins = { -1,0,0,0 };
-	//UpdateLayeredWindow(mainwindow, nullptr, nullptr, nullptr, nullptr, nullptr, RGB(255, 255, 255), nullptr, 0);
-	//DwmExtendFrameIntoClientArea(mainwindow, &margins);
 	if (mainwindow == NULL)
 		return 20;
 	D2DFactory = CreateFactory();
@@ -121,7 +117,7 @@ int __stdcall wWinMain(HINSTANCE instance, HINSTANCE previnst, wchar_t* cmdline,
 	ShowWindow(mainwindow, cmdshow);
 	SendMessageW(mainwindow, 0x00001111, NULL, reinterpret_cast<LPARAM>(&Window));
 	SendMessageW(mainwindow, WM_PAINT, NULL, NULL);
-
+	
 	return (int)msgloop_fn();
 }
 

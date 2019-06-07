@@ -2,7 +2,7 @@
 #include "Resource.h"
 #include <thread>
 using namespace std;
-
+using namespace COM_helper;
 D2DHelper::D2DWindowV2::D2DWindowV2(HWND hwnd, std::shared_ptr<ID2D1Factory> Factory):D2DWindowV2{Factory}
 {
 	ID2D1HwndRenderTarget* rawtarget = nullptr;
@@ -34,7 +34,7 @@ ID2D1HwndRenderTarget* D2DHelper::D2DWindowV2::operator->()
 	return RenderTarget.get();
 }
 
-ID2D1HwndRenderTarget* D2DHelper::D2DWindowV2::get()
+ID2D1HwndRenderTarget* D2DHelper::D2DWindowV2::render_tgt()
 {
 	return RenderTarget.get();
 }

@@ -28,3 +28,6 @@
 #include <d2d1helper.h>
 #include <dwrite.h>
 #include <wincodec.h>
+
+//其他文件
+#include "HRESULT_exception.h"
