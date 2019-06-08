@@ -218,6 +218,9 @@
     <ProjectReference Include="..\D2DBitmapRead\D2DBitmapRead.vcxproj">
       <Project>{a1760634-63b4-4778-a464-e5769b1acfc2}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\Exceptions\Exceptions.vcxproj">
+      <Project>{a3641b85-3044-4faf-8372-4fe864069721}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -24,6 +24,9 @@
     <ClInclude Include="HRESULT_exception.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="bmpreader_exception.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -33,6 +36,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="HRESULT_exception.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="bmpreader_exception.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

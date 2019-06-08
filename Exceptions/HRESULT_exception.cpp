@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "HRESULT_exception.h"
 #include <stdio.h>
 using namespace COM_helper;
@@ -17,7 +19,6 @@ char* HRESULT_exception::what() noexcept
 {
 	size_t msglen = strlen(msg);
 	this->out_msg = new char[28 + msglen + 100 + 20 + 14];
-	FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM, nullptr, this->h, GetUserDefaultLangID(), hresult_msg, 100, nullptr);
 	sprintf_s(out_msg,
 		msglen + 120,
 		"HRESULT_exception message: %s \n\tHRESULT message: %s \n\tHRESULT = 0x%08X\n", 
@@ -39,5 +40,5 @@ HRESULT_exception::~HRESULT_exception() noexcept
 
 void COM_helper::HRESULT_exception::build_hresult_msg() noexcept
 {
-	
+	FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM, nullptr, this->h, GetUserDefaultLangID(), hresult_msg, 120, nullptr);
 }

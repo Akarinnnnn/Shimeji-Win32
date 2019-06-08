@@ -91,6 +91,7 @@
       <PreprocessorDefinitions>_DEBUG;EXCEPTIONS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <DiagnosticsFormat>Classic</DiagnosticsFormat>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -107,6 +108,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;EXCEPTIONS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <DiagnosticsFormat>Classic</DiagnosticsFormat>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -125,6 +127,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;EXCEPTIONS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <DiagnosticsFormat>Classic</DiagnosticsFormat>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -145,6 +148,7 @@
       <PreprocessorDefinitions>NDEBUG;EXCEPTIONS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <DiagnosticsFormat>Classic</DiagnosticsFormat>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -155,11 +159,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="bmpreader_exception.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="HRESULT_exception.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="bmpreader_exception.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="HRESULT_exception.cpp" />
     <ClCompile Include="pch.cpp">

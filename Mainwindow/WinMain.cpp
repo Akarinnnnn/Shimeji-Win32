@@ -6,7 +6,7 @@
 #include <dwmapi.h>
 #include "D2DWindow.h"
 #include "com_uniqueptr.h"
-#include "HRESULT_exception.cpp"
+#include "../Exceptions/HRESULT_exception.h"
 std::shared_ptr<ID2D1Factory> D2DFactory;
 
 LRESULT __stdcall ShimejiWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -21,11 +21,11 @@ LRESULT __stdcall ShimejiWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 	switch (message)
 	{
 	case WM_CREATE:
-		//wnd_style = GetWindowLongW(hWnd, GWL_STYLE);
-		//wnd_style &= ~(WS_CAPTION | WS_SYSMENU | WS_SIZEBOX);
+		wnd_style = GetWindowLongW(hWnd, GWL_STYLE);
+		wnd_style &= ~(WS_CAPTION | WS_SYSMENU | WS_SIZEBOX);
 		SetLayeredWindowAttributes(hWnd, RGB(0, 0, 0), 0, LWA_COLORKEY);
-		SetWindowLongW(hWnd, GWL_STYLE, 0x16010000);
-		//UpdateWindow(hWnd);
+		SetWindowLongW(hWnd, GWL_STYLE, wnd_style);
+		//0x16010000
 		break;
 	case 0x00001111://Init D2D
 		D2DWindow = reinterpret_cast<D2DHelper::D2DWindowV2*>(lParam);
@@ -97,7 +97,7 @@ std::shared_ptr<ID2D1Factory> CreateFactory()
 	ID2D1Factory* rawfactory = nullptr;
 	HRESULT last_result = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &rawfactory);
 	if (FAILED(last_result))
-		throw HRESULT_exception("Create D2D Factory failed.", last_result);
+		throw COM_helper::HRESULT_exception("Create D2D Factory failed.", last_result);
 	return shared_ptr<ID2D1Factory>(rawfactory, D2DHelper::D2DObjectDeleter<ID2D1Factory>());
 }
 

@@ -30,4 +30,4 @@
 #include <wincodec.h>
 
 //其他文件
-#include "HRESULT_exception.h"
+#include "..\Exceptions\HRESULT_exception.h"

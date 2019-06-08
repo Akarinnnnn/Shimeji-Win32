@@ -1,9 +1,17 @@
 #pragma once
 #include <exception>
 #include <wtypes.h>
+
+
+#if EXCEPTIONS_EXPORTS
+#define EXPORTS __declspec(dllexport)
+#else
+#define EXPORTS __declspec(dllimport)
+#endif // EXCEPTIONS_EXPORTS
+
 namespace COM_helper
 {
-	class HRESULT_exception :public std::exception
+	class EXPORTS HRESULT_exception :public std::exception
 	{
 	public:
 		HRESULT_exception(const char* msg, HRESULT h) noexcept;

@@ -5,9 +5,10 @@
 #include "framework.h"
 #include "BitmapRead.h"
 #include <filesystem>
+#include "../Exceptions/bmpreader_exception.h"
 
 using namespace std;
-
+using namespace D2DHelper;
 D2DHelper::bmpreader::bmpreader()
 {
 	LPVOID rawfactory = nullptr;
@@ -78,20 +79,4 @@ ID2D1Bitmap* D2DHelper::bmpreader::read(const wchar_t * filename)
 		return bitmap;
 	else
 		throw bmpreader_exception("Failed to Create D2D Bitmap Object", last_result);
-}
-
-D2DHelper::bmpreader_exception::bmpreader_exception(char const* msg, HRESULT id) noexcept: HRESULT_exception{ msg,id } 
-{
-	bmpmsg = nullptr;
-}
-
-D2DHelper::bmpreader_exception::bmpreader_exception(char const* msg) noexcept : HRESULT_exception{ msg }
-{
-	bmpmsg = nullptr;
-}
-
-char* D2DHelper::bmpreader_exception::what() noexcept
-{
-	bmpmsg = new char[strlen(msg) + 100 + 20 + 10];
-
 }

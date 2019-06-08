@@ -13,7 +13,7 @@
 #include <d2d1.h>
 #include <memory>
 #include <exception>
-#include "HRESULT_exception.h"
+#include "..\Exceptions\HRESULT_exception.h"
 
 //导出的命名空间
 namespace D2DHelper 
@@ -25,16 +25,6 @@ namespace D2DHelper
 		{
 			if (target != nullptr)target->Release();
 		}
-	};
-
-	class BITMAPREAD_API bmpreader_exception :public COM_helper::HRESULT_exception
-	{
-	public:
-		bmpreader_exception(char const* msg, HRESULT id) noexcept;
-		bmpreader_exception(char const* msg) noexcept;
-		char* what() noexcept;
-	private:
-		char* bmpmsg;
 	};
 
 	class BITMAPREAD_API bmpreader
