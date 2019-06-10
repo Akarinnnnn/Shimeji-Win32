@@ -22,7 +22,7 @@ D2DHelper::bmpreader::bmpreader()
 		&rawfactory);
 	if(FAILED(hresult))
 	{
-		throw bmpreader_exception("Create WICFactory Failed", 41);
+		throw bmpreader_exception("Create WICFactory Failed", hresult);
 	}
 	else
 	{
