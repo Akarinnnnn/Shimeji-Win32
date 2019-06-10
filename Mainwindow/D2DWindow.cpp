@@ -3,7 +3,7 @@
 #include <thread>
 using namespace std;
 using namespace COM_helper;
-D2DHelper::D2DWindowV2::D2DWindowV2(HWND hwnd, std::shared_ptr<ID2D1Factory> Factory):D2DWindowV2{Factory}
+D2DHelper::D2DWindowV2::D2DWindowV2(HWND hwnd, std::shared_ptr<ID2D1Factory> Factory) :D2DWindowV2{ Factory }
 {
 	ID2D1HwndRenderTarget* rawtarget = nullptr;
 	D2D1_RENDER_TARGET_PROPERTIES rtprops =
@@ -42,4 +42,27 @@ ID2D1HwndRenderTarget* D2DHelper::D2DWindowV2::render_tgt()
 D2DHelper::D2DWindowV2::D2DWindowV2(std::shared_ptr<ID2D1Factory> Factory)
 {
 	this->Factory = Factory;
+}
+
+void D2DHelper::D2DWindowV2::register_wnd_class()
+{
+	WNDCLASSEXW wc_ex{
+		sizeof(WNDCLASSEXW),
+		CS_HREDRAW | CS_VREDRAW,
+		&D2DWindowV2::wnd_proc,
+		0,0,
+		GetModuleHandleW(L"MainWindow.exe"),//直接获取
+		nullptr,
+		nullptr,
+		CreateSolidBrush(RGB(0,0,0)),
+		L"d2d window",
+		L"D2D wnd class",
+		nullptr
+	};
+	RegisterClassExW(&wc_ex);
+}
+
+LRESULT __stdcall D2DHelper::D2DWindowV2::wnd_proc(HWND hwnd, UINT wndmessage, WPARAM wp, LPARAM lp)
+{
+	return LRESULT();
 }
