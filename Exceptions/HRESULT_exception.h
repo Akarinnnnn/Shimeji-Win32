@@ -22,15 +22,16 @@ namespace COM_helper
 			HRESULT message: ...
 			HRESULT = 0x12345678
 		*/
-		virtual char* what() noexcept;
+		virtual char const* what() const noexcept override;
 		HRESULT hresult() noexcept;
-		~HRESULT_exception() noexcept;
+		~HRESULT_exception() noexcept override;
 	protected:
 		void build_hresult_msg() noexcept;
 		char hresult_msg[100 + 20] = { 0 };
 		const char* msg;
 		HRESULT h;
 	private:
+		void build_out_msg(size_t msg_len);
 		char* out_msg;
 	};
 }

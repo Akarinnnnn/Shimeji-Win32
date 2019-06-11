@@ -8,13 +8,16 @@ namespace D2DHelper
 	{
 	public:
 		D2DWindowV3(std::shared_ptr<ID2D1Factory> Factory, HINSTANCE);
+		//static D2DWindowV3(HINSTANCE);
 		ID2D1HwndRenderTarget* render_tgt();
 		void resize(UINT w, UINT h);
 		void show(int cmdshow);
 		void hide();
 		void close();
-		LPARAM run_msgloop();//一个线程一个窗口时用
-		[[nodiscard]] static LPARAM ALL_MSGLOOP();//主线程处理所有窗口
+		//一个线程一个窗口时用
+		LPARAM run_msgloop();
+		//主线程处理所有窗口
+		[[nodiscard]] static LPARAM ALL_MSGLOOP();
 		~D2DWindowV3();
 	protected:
 		COM_helper::unique_com<ID2D1HwndRenderTarget> RenderTarget;

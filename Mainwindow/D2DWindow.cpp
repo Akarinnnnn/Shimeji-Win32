@@ -86,10 +86,14 @@ D2DHelper::D2DWindowV3::~D2DWindowV3()
 
 D2DHelper::D2DWindowV3::D2DWindowV3(std::shared_ptr<ID2D1Factory> Factory, HINSTANCE hinstance)
 {
-	this->wnd_handle = CreateWindowExW(WS_EX_LAYERED, L"Shimeji-Win32 Mainwindow Class", L"wdnm",
+	this->wnd_handle = CreateWindowExW(WS_EX_LAYERED, L"D2D window class", L"D2D window",
 		WS_OVERLAPPED | WS_VISIBLE | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_CLIPCHILDREN | WS_CLIPSIBLINGS,
 		CW_USEDEFAULT,
 		CW_USEDEFAULT, 150, 200, nullptr, nullptr, hinstance, this);
+	if (wnd_handle == nullptr)
+	{
+		throw HRESULT_exception("Failed to create window", GetLastError());
+	}
 	this->Factory = Factory;
 
 }
