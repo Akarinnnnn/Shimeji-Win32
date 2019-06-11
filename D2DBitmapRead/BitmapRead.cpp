@@ -37,9 +37,10 @@ D2DHelper::bmpreader::bmpreader(ID2D1RenderTarget* RenderTarget) : bmpreader{}
 
 ID2D1Bitmap* D2DHelper::bmpreader::read(const wchar_t * filename)
 {
-	unique_ptr<IWICBitmapDecoder,COMDeleter> decoder = nullptr;
-	unique_ptr<IWICBitmapFrameDecode,COMDeleter> decoded = nullptr;
-	unique_ptr<IWICFormatConverter,COMDeleter> converter = nullptr;
+	using namespace COM_helper;
+	unique_com<IWICBitmapDecoder> decoder = nullptr;
+	unique_com<IWICBitmapFrameDecode> decoded = nullptr;
+	unique_com<IWICFormatConverter> converter = nullptr;
 	HRESULT last_result = 0;
 	IWICBitmapDecoder* rawdecoder;
 	IWICBitmapFrameDecode* rawdecoded = nullptr;

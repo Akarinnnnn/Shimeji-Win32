@@ -22,6 +22,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <exception>
 
 //D2D头文件
 #include <d2d1.h>
@@ -31,3 +32,5 @@
 
 //其他文件
 #include "..\Exceptions\HRESULT_exception.h"
+//hint不长于36
+void exception2msgbox(std::exception& e, const char hint[32]);

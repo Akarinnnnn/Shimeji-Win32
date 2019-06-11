@@ -14,19 +14,11 @@
 #include <memory>
 #include <exception>
 #include "..\Exceptions\HRESULT_exception.h"
+#include "../Mainwindow/com_uniqueptr.h"
 
 //导出的命名空间
 namespace D2DHelper 
 {
-	class COMDeleter
-	{
-	public:
-		inline void operator() (IUnknown* target)
-		{
-			if (target != nullptr)target->Release();
-		}
-	};
-
 	class BITMAPREAD_API bmpreader
 	{
 	public:
@@ -34,7 +26,7 @@ namespace D2DHelper
 		bmpreader(ID2D1RenderTarget* RenderTarget);
 		ID2D1Bitmap* read(const wchar_t * filename);
 	private:
-		std::unique_ptr<IWICImagingFactory2,COMDeleter> WICFactory;
+		COM_helper::unique_com<IWICImagingFactory2> WICFactory;
 		ID2D1RenderTarget* RenderTarget;
 	};
 }

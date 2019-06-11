@@ -1,5 +1,7 @@
-﻿#include <memory>
+﻿#pragma once
+#include <memory>
 #include <combaseapi.h>
+
 namespace COM_helper
 {
 	class COM_Deleter
