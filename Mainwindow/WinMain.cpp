@@ -30,6 +30,7 @@ int __stdcall wWinMain(HINSTANCE instance, HINSTANCE previnst, wchar_t* cmdline,
 	catch (std::exception& e)
 	{
 		exception2msgbox(e,"wWinMain");
+		return 1;
 	}
 }
 

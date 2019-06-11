@@ -134,7 +134,7 @@ LRESULT __stdcall D2DHelper::D2DWindowV3::wnd_proc(HWND hwnd, UINT wndmessage, W
 	}
 	else
 	{
-		D2DWindowV3* _this = reinterpret_cast<D2DWindowV3*>(GetWindowLongPtrW(hwnd, GWLP_USERDATA));
+		D2DWindowV3* _this = reinterpret_cast<D2DWindowV3*>(GetWindowLongPtrW(hwnd, GWLP_USERDATA));//感谢M$大恩大德.jpg
 		switch (wndmessage)
 		{
 		case WM_SIZE:
